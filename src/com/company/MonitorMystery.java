@@ -17,9 +17,7 @@ public class MonitorMystery {
                 }
             }
             throw new IllegalStateException("Unsafe field not found");
-        } catch (Exception e) {
-            throw new IllegalStateException("Could not initialize unsafe",e);
-        }
+        } catch (Exception e) { throw new IllegalStateException("Could not initialize unsafe",e); }
     }
 
     public static void main(String... args) throws InterruptedException {
@@ -28,9 +26,7 @@ public class MonitorMystery {
                 getUnsafe().monitorEnter(MonitorMystery.class);
                 try{
                     Thread.sleep(10_000);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+                }catch (Exception e){ e.printStackTrace(); }
                 getUnsafe().monitorExit(MonitorMystery.class);
             }
         };
