@@ -23,6 +23,11 @@
             <version>25.1-jre</version>
         </dependency>
         <dependency>
+            <groupId>org.knowm.xchart</groupId>
+            <artifactId>xchart</artifactId>
+            <version>3.5.2</version>
+        </dependency>
+        <dependency>
             <groupId>test</groupId>
             <artifactId>test-jar</artifactId>
             <version>1.0-SNAPSHOT</version>
