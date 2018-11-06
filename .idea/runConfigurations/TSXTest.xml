@@ -1,16 +1,22 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="TSXTest" type="Application" factoryName="Application" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="com.company.TSXTest" />
-    <module name="jvm-tricks" />
-    <option name="VM_PARAMETERS" value="-server -XX:+UseRTMLocking" />
-    <extension name="coverage">
+    <extension name="coverage" enabled="false" merge="false" runner="idea">
       <pattern>
         <option name="PATTERN" value="com.company.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
+    <option name="MAIN_CLASS_NAME" value="com.company.TSXTest" />
+    <option name="VM_PARAMETERS" value="-server -XX:+AggressiveOpts -XX:+UseBiasedLocking -XX:BiasedLockingStartupDelay=1 -XX:BiasedLockingBulkRebiasThreshold=1 -XX:BiasedLockingBulkRevokeThreshold=1000 -XX:BiasedLockingDecayTime=5" />
+    <option name="PROGRAM_PARAMETERS" value="" />
+    <option name="WORKING_DIRECTORY" value="" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <option name="ENABLE_SWING_INSPECTOR" value="false" />
+    <option name="ENV_VARIABLES" />
+    <option name="PASS_PARENT_ENVS" value="true" />
+    <module name="jvm-tricks" />
+    <envs />
+    <method />
   </configuration>
 </component>

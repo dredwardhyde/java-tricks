@@ -14,6 +14,43 @@ public class TSXTest {
         variables = new int[N];
     }
 
+    /*
+        -server -XX:+UseRTMLocking
+
+        synchronized: false; Nmb of Variables:100000;  Duration:779
+        synchronized: false; Nmb of Variables:10000;  Duration:1102
+        synchronized: false; Nmb of Variables:1000;  Duration:1580
+        synchronized: false; Nmb of Variables:100;  Duration:2361
+        synchronized: false; Nmb of Variables:10;  Duration:1884
+        synchronized: false; Nmb of Variables:1;  Duration:490
+        synchronized: true; Nmb of Variables:100000;  Duration:3568
+        synchronized: true; Nmb of Variables:10000;  Duration:4248
+        synchronized: true; Nmb of Variables:1000;  Duration:5913
+        synchronized: true; Nmb of Variables:100;  Duration:14290
+        synchronized: true; Nmb of Variables:10;  Duration:28125
+        synchronized: true; Nmb of Variables:1;  Duration:34219
+
+
+        -server
+        -XX:+UseBiasedLocking
+        -XX:BiasedLockingStartupDelay=1
+        -XX:BiasedLockingBulkRebiasThreshold=1
+        -XX:BiasedLockingBulkRevokeThreshold=100
+        -XX:BiasedLockingDecayTime=100
+
+        synchronized: false; Nmb of Variables:100000;  Duration:775
+        synchronized: false; Nmb of Variables:10000;  Duration:1095
+        synchronized: false; Nmb of Variables:1000;  Duration:1620
+        synchronized: false; Nmb of Variables:100;  Duration:2440
+        synchronized: false; Nmb of Variables:10;  Duration:1744
+        synchronized: false; Nmb of Variables:1;  Duration:497
+        synchronized: true; Nmb of Variables:100000;  Duration:23142
+        synchronized: true; Nmb of Variables:10000;  Duration:16949
+        synchronized: true; Nmb of Variables:1000;  Duration:14102
+        synchronized: true; Nmb of Variables:100;  Duration:12279
+        synchronized: true; Nmb of Variables:10;  Duration:12021
+        synchronized: true; Nmb of Variables:1;  Duration:11680
+     */
     public static void main(String[] args) throws InterruptedException {
         int n = 100000;
         while (true) {
