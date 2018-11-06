@@ -7,7 +7,7 @@
       </pattern>
     </extension>
     <option name="MAIN_CLASS_NAME" value="com.company.TSXTest" />
-    <option name="VM_PARAMETERS" value="-server -XX:+AggressiveOpts -XX:+UseBiasedLocking -XX:BiasedLockingStartupDelay=1 -XX:BiasedLockingBulkRebiasThreshold=1 -XX:BiasedLockingBulkRevokeThreshold=1000 -XX:BiasedLockingDecayTime=5" />
+    <option name="VM_PARAMETERS" value="-server -XX:+AggressiveOpts -XX:+UseBiasedLocking -XX:BiasedLockingStartupDelay=1 -XX:BiasedLockingBulkRebiasThreshold=1 -XX:BiasedLockingBulkRevokeThreshold=100 -XX:BiasedLockingDecayTime=100" />
     <option name="PROGRAM_PARAMETERS" value="" />
     <option name="WORKING_DIRECTORY" value="" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
