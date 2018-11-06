@@ -16,6 +16,8 @@ public class TSXTest {
 
     /*  Microsoft Windows [Version 10.0.17134.376]
 
+	    Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz
+
         java version "1.8.0_181"
         Java(TM) SE Runtime Environment (build 1.8.0_181-b13)
         Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)
