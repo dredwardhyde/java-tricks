@@ -14,7 +14,12 @@ public class TSXTest {
         variables = new int[N];
     }
 
-    /*
+    /*  Microsoft Windows [Version 10.0.17134.376]
+
+        java version "1.8.0_181"
+        Java(TM) SE Runtime Environment (build 1.8.0_181-b13)
+        Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)
+
         -server -XX:+UseRTMLocking
 
         synchronized: false; Nmb of Variables:100000;  Duration:779
