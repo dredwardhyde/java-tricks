@@ -4,11 +4,13 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class TSXTest {
     final int N;
     final Object o = new Object();
     final int[] variables;
+    ReentrantLock rl = new ReentrantLock(false);
     public TSXTest(int n) {
         this.N = n;
         variables = new int[N];
@@ -24,12 +26,9 @@ public class TSXTest {
 
         -server -XX:+UseRTMLocking
 
-        synchronized: false; Nmb of Variables:100000;  Duration:779
-        synchronized: false; Nmb of Variables:10000;  Duration:1102
-        synchronized: false; Nmb of Variables:1000;  Duration:1580
-        synchronized: false; Nmb of Variables:100;  Duration:2361
-        synchronized: false; Nmb of Variables:10;  Duration:1884
-        synchronized: false; Nmb of Variables:1;  Duration:490
+        From docs: RTM improves performance for highly contended locks with low conflict in a critical
+        region (which is code that must not be accessed by more than one thread concurrently).
+
         synchronized: true; Nmb of Variables:100000;  Duration:3568
         synchronized: true; Nmb of Variables:10000;  Duration:4248
         synchronized: true; Nmb of Variables:1000;  Duration:5913
@@ -38,6 +37,10 @@ public class TSXTest {
         synchronized: true; Nmb of Variables:1;  Duration:34219
 
 
+        Synchronized blocks in Java are reentrant. This means, that if a Java thread enters a synchronized block of code,
+        and thereby take the lock on the monitor object the block is synchronized on, the thread
+        can enter other Java code blocks synchronized on the same monitor object.
+
         -server
         -XX:+UseBiasedLocking
         -XX:BiasedLockingStartupDelay=1
@@ -45,18 +48,56 @@ public class TSXTest {
         -XX:BiasedLockingBulkRevokeThreshold=100
         -XX:BiasedLockingDecayTime=100
 
-        synchronized: false; Nmb of Variables:100000;  Duration:775
-        synchronized: false; Nmb of Variables:10000;  Duration:1095
-        synchronized: false; Nmb of Variables:1000;  Duration:1620
-        synchronized: false; Nmb of Variables:100;  Duration:2440
-        synchronized: false; Nmb of Variables:10;  Duration:1744
-        synchronized: false; Nmb of Variables:1;  Duration:497
         synchronized: true; Nmb of Variables:100000;  Duration:23142
         synchronized: true; Nmb of Variables:10000;  Duration:16949
         synchronized: true; Nmb of Variables:1000;  Duration:14102
         synchronized: true; Nmb of Variables:100;  Duration:12279
         synchronized: true; Nmb of Variables:10;  Duration:12021
         synchronized: true; Nmb of Variables:1;  Duration:11680
+
+
+        macOS 10.13.6 (17G65)
+        MacBook Pro 2017 Intel(R) Core(TM) i7-7820HQ CPU @ 2.90GHz
+
+        -server
+        -XX:+UseBiasedLocking
+        -XX:BiasedLockingStartupDelay=1
+        -XX:BiasedLockingBulkRebiasThreshold=1
+        -XX:BiasedLockingBulkRevokeThreshold=100
+        -XX:BiasedLockingDecayTime=100
+
+        synchronized: true; Nmb of Variables:100000;  Duration:28831
+        synchronized: true; Nmb of Variables:10000;  Duration:15500
+        synchronized: true; Nmb of Variables:1000;  Duration:12661
+        synchronized: true; Nmb of Variables:100;  Duration:12209
+        synchronized: true; Nmb of Variables:10;  Duration:12075
+        synchronized: true; Nmb of Variables:1;  Duration:12158
+
+
+
+        -server -XX:+UseRTMLocking
+
+        synchronized: true; Nmb of Variables:100000;  Duration:3870
+        synchronized: true; Nmb of Variables:10000;  Duration:4579
+        synchronized: true; Nmb of Variables:1000;  Duration:8797
+        synchronized: true; Nmb of Variables:100;  Duration:17303
+        synchronized: true; Nmb of Variables:10;  Duration:44750
+        synchronized: true; Nmb of Variables:1;  Duration:34312
+
+
+
+        -server
+
+        ReentrantLock rl = new ReentrantLock(false);
+
+        synchronized: true; Nmb of Variables:100000;  Duration:22417
+        synchronized: true; Nmb of Variables:10000;  Duration:23962
+        synchronized: true; Nmb of Variables:1000;  Duration:13579
+        synchronized: true; Nmb of Variables:100;  Duration:12815
+        synchronized: true; Nmb of Variables:10;  Duration:12793
+        synchronized: true; Nmb of Variables:1;  Duration:11131
+
+
      */
     public static void main(String[] args) throws InterruptedException {
         int n = 100000;
@@ -79,7 +120,6 @@ public class TSXTest {
     }
 
     private void go(boolean doSync) throws InterruptedException {
-        //  -XX:+UseRTMLocking
         ExecutorService es = Executors.newFixedThreadPool(4);
         Collection cs = new ArrayList<>();
         cs.add(new Task(100, doSync));
@@ -117,14 +157,20 @@ public class TSXTest {
         }
 
         @Override
-        public Void call() throws Exception {
+        public Void call() {
             for (int i = 0; i < 100000000; i++) {
+//                if (sync) {
+//                    rl.lock();
+//                    try{
+//                        variables[rnd[i % N]]++;
+//                    } finally { rl.unlock(); }
+//                }
+//                else variables[rnd[i % N]]++;
                 if (sync)
                     synchronized (o) {
                         variables[rnd[i % N]]++;
                     }
                 else variables[rnd[i % N]]++;
-
             }
             return null;
         }
