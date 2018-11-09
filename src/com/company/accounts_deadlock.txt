@@ -1,0 +1,237 @@
+2018-11-09 21:59:57
+Full thread dump Java HotSpot(TM) 64-Bit Server VM (25.191-b12 mixed mode):
+
+"Attach Listener" #19 daemon prio=9 os_prio=31 tid=0x00007fefda80d000 nid=0xb07 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"pool-2-thread-4" #18 prio=5 os_prio=31 tid=0x00007fefd9041000 nid=0x5807 waiting for monitor entry [0x000070000878a000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at com.company.Accounts.transferMoney(Accounts.java:55)
+	- waiting to lock <0x000000076f2589e8> (a com.company.Account)
+	at com.company.Accounts.access$100(Accounts.java:25)
+	at com.company.Accounts$Task.call(Accounts.java:106)
+	at com.company.Accounts$Task.call(Accounts.java:79)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+   Locked ownable synchronizers:
+	- <0x000000076e454c60> (a java.util.concurrent.ThreadPoolExecutor$Worker)
+
+"pool-2-thread-3" #17 prio=5 os_prio=31 tid=0x00007fefd9040800 nid=0xa607 waiting for monitor entry [0x0000700008687000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at com.company.Accounts.transferMoney(Accounts.java:56)
+	- waiting to lock <0x000000076f227c88> (a com.company.Account)
+	- locked <0x000000076f2589e8> (a com.company.Account)
+	at com.company.Accounts.access$100(Accounts.java:25)
+	at com.company.Accounts$Task.call(Accounts.java:106)
+	at com.company.Accounts$Task.call(Accounts.java:79)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+   Locked ownable synchronizers:
+	- <0x000000076e454998> (a java.util.concurrent.ThreadPoolExecutor$Worker)
+
+"pool-2-thread-2" #16 prio=5 os_prio=31 tid=0x00007fefd903f800 nid=0xa807 waiting for monitor entry [0x0000700008584000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at com.company.Accounts.transferMoney(Accounts.java:55)
+	- waiting to lock <0x000000076f227c88> (a com.company.Account)
+	at com.company.Accounts.access$100(Accounts.java:25)
+	at com.company.Accounts$Task.call(Accounts.java:106)
+	at com.company.Accounts$Task.call(Accounts.java:79)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+   Locked ownable synchronizers:
+	- <0x000000076e4546d0> (a java.util.concurrent.ThreadPoolExecutor$Worker)
+
+"pool-2-thread-1" #15 prio=5 os_prio=31 tid=0x00007fefd903f000 nid=0xa707 waiting for monitor entry [0x0000700008481000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at com.company.Accounts.transferMoney(Accounts.java:56)
+	- waiting to lock <0x000000076f2589e8> (a com.company.Account)
+	- locked <0x000000076f227c88> (a com.company.Account)
+	at com.company.Accounts.access$100(Accounts.java:25)
+	at com.company.Accounts$Task.call(Accounts.java:106)
+	at com.company.Accounts$Task.call(Accounts.java:79)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+   Locked ownable synchronizers:
+	- <0x000000076e4543b8> (a java.util.concurrent.ThreadPoolExecutor$Worker)
+
+"Service Thread" #10 daemon prio=9 os_prio=31 tid=0x00007fefd8824000 nid=0x3b03 runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"C1 CompilerThread3" #9 daemon prio=9 os_prio=31 tid=0x00007fefdb004000 nid=0x3a03 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"C2 CompilerThread2" #8 daemon prio=9 os_prio=31 tid=0x00007fefdb003800 nid=0x3903 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"C2 CompilerThread1" #7 daemon prio=9 os_prio=31 tid=0x00007fefdb002800 nid=0x3803 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"C2 CompilerThread0" #6 daemon prio=9 os_prio=31 tid=0x00007fefdb002000 nid=0x4103 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"Monitor Ctrl-Break" #5 daemon prio=5 os_prio=31 tid=0x00007fefdb000000 nid=0x3703 runnable [0x0000700007d6c000]
+   java.lang.Thread.State: RUNNABLE
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	- locked <0x000000076eb0e850> (a java.io.InputStreamReader)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	- locked <0x000000076eb0e850> (a java.io.InputStreamReader)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at com.intellij.rt.execution.application.AppMainV2$1.run(AppMainV2.java:64)
+
+   Locked ownable synchronizers:
+	- None
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=31 tid=0x00007fefd9011800 nid=0x430b runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"Finalizer" #3 daemon prio=8 os_prio=31 tid=0x00007fefd9030000 nid=0x3103 in Object.wait() [0x0000700007b66000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	- waiting on <0x000000076eb00f28> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:144)
+	- locked <0x000000076eb00f28> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:165)
+	at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:216)
+
+   Locked ownable synchronizers:
+	- None
+
+"Reference Handler" #2 daemon prio=10 os_prio=31 tid=0x00007fefd9825000 nid=0x3003 in Object.wait() [0x0000700007a63000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	- waiting on <0x000000076eb182f0> (a java.lang.ref.Reference$Lock)
+	at java.lang.Object.wait(Object.java:502)
+	at java.lang.ref.Reference.tryHandlePending(Reference.java:191)
+	- locked <0x000000076eb182f0> (a java.lang.ref.Reference$Lock)
+	at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:153)
+
+   Locked ownable synchronizers:
+	- None
+
+"main" #1 prio=5 os_prio=31 tid=0x00007fefd9008000 nid=0x2603 waiting on condition [0x0000700007045000]
+   java.lang.Thread.State: WAITING (parking)
+	at sun.misc.Unsafe.park(Native Method)
+	- parking to wait for  <0x000000076e454398> (a java.util.concurrent.FutureTask)
+	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:175)
+	at java.util.concurrent.FutureTask.awaitDone(FutureTask.java:429)
+	at java.util.concurrent.FutureTask.get(FutureTask.java:191)
+	at java.util.concurrent.AbstractExecutorService.invokeAll(AbstractExecutorService.java:244)
+	at com.company.Accounts.go(Accounts.java:73)
+	at com.company.Accounts.main(Accounts.java:38)
+
+   Locked ownable synchronizers:
+	- None
+
+"VM Thread" os_prio=31 tid=0x00007fefda01a000 nid=0x2f03 runnable 
+
+"GC task thread#0 (ParallelGC)" os_prio=31 tid=0x00007fefd9020800 nid=0x2107 runnable 
+
+"GC task thread#1 (ParallelGC)" os_prio=31 tid=0x00007fefd9021800 nid=0x2003 runnable 
+
+"GC task thread#2 (ParallelGC)" os_prio=31 tid=0x00007fefd9022000 nid=0x2a03 runnable 
+
+"GC task thread#3 (ParallelGC)" os_prio=31 tid=0x00007fefd7808800 nid=0x5303 runnable 
+
+"GC task thread#4 (ParallelGC)" os_prio=31 tid=0x00007fefd7809000 nid=0x2c03 runnable 
+
+"GC task thread#5 (ParallelGC)" os_prio=31 tid=0x00007fefd780a000 nid=0x5203 runnable 
+
+"GC task thread#6 (ParallelGC)" os_prio=31 tid=0x00007fefd780a800 nid=0x5003 runnable 
+
+"GC task thread#7 (ParallelGC)" os_prio=31 tid=0x00007fefd780b000 nid=0x2e03 runnable 
+
+"VM Periodic Task Thread" os_prio=31 tid=0x00007fefdb00d000 nid=0x5503 waiting on condition 
+
+JNI global references: 15
+
+
+Found one Java-level deadlock:
+=============================
+"pool-2-thread-4":
+  waiting to lock monitor 0x00007fefd92ac0f8 (object 0x000000076f2589e8, a com.company.Account),
+  which is held by "pool-2-thread-3"
+"pool-2-thread-3":
+  waiting to lock monitor 0x00007fefda21ee98 (object 0x000000076f227c88, a com.company.Account),
+  which is held by "pool-2-thread-1"
+"pool-2-thread-1":
+  waiting to lock monitor 0x00007fefd92ac0f8 (object 0x000000076f2589e8, a com.company.Account),
+  which is held by "pool-2-thread-3"
+
+Java stack information for the threads listed above:
+===================================================
+"pool-2-thread-4":
+	at com.company.Accounts.transferMoney(Accounts.java:55)
+	- waiting to lock <0x000000076f2589e8> (a com.company.Account)
+	at com.company.Accounts.access$100(Accounts.java:25)
+	at com.company.Accounts$Task.call(Accounts.java:106)
+	at com.company.Accounts$Task.call(Accounts.java:79)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+"pool-2-thread-3":
+	at com.company.Accounts.transferMoney(Accounts.java:56)
+	- waiting to lock <0x000000076f227c88> (a com.company.Account)
+	- locked <0x000000076f2589e8> (a com.company.Account)
+	at com.company.Accounts.access$100(Accounts.java:25)
+	at com.company.Accounts$Task.call(Accounts.java:106)
+	at com.company.Accounts$Task.call(Accounts.java:79)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+"pool-2-thread-1":
+	at com.company.Accounts.transferMoney(Accounts.java:56)
+	- waiting to lock <0x000000076f2589e8> (a com.company.Account)
+	- locked <0x000000076f227c88> (a com.company.Account)
+	at com.company.Accounts.access$100(Accounts.java:25)
+	at com.company.Accounts$Task.call(Accounts.java:106)
+	at com.company.Accounts$Task.call(Accounts.java:79)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+Found 1 deadlock.
+

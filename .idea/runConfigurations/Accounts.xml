@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="TSXTest" type="Application" factoryName="Application" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="com.company.TSXTest" />
+  <configuration default="false" name="Accounts" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="MAIN_CLASS_NAME" value="com.company.Accounts" />
     <module name="jvm-tricks" />
-    <option name="VM_PARAMETERS" value="-server -XX:+UseRTMLocking" />
+    <option name="VM_PARAMETERS" value="-server -ea" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.company.*" />
