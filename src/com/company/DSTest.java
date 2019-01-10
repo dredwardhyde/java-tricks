@@ -54,17 +54,20 @@ public class DSTest {
 
             long start = System.currentTimeMillis();
 
-            for(int i = 0; i < 10_000; i++){
+            for(int i = 0; i < 1_000_000; i++){
                 Connection conn = ods.getConnection();
+                conn.setAutoCommit(false);
                 PreparedStatement ps = conn.prepareStatement("INSERT INTO PERSONS (id, firstname, lastname) VALUES (?,?,?)");
                 String key = UUID.randomUUID().toString();
                 ps.setString(1, key);
                 ps.setString(2, "TEST " + key);
                 ps.setString(3, "TESTOV " + key);
                 ps.executeUpdate();
+                conn.commit();
                 ps.close();
                 conn.close();
             }
+            // Finished in 504936 ms
             System.out.println("Finished in " + (System.currentTimeMillis()  - start) + " ms");
         }catch (Exception e){
             e.printStackTrace();
