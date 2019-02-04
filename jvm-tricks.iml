@@ -27,5 +27,16 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Maven: com.mchange:c3p0:0.9.5.2" level="project" />
+    <orderEntry type="library" name="Maven: com.mchange:mchange-commons-java:0.2.11" level="project" />
+    <orderEntry type="module-library">
+      <library name="Maven: oracle:ojdbc6:11.2.0.3">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/ojdbc6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

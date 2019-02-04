@@ -43,7 +43,7 @@
             <groupId>oracle</groupId>
             <artifactId>ojdbc6</artifactId>
             <version>11.2.0.3</version>
-            <systemPath>D:/app/kronos/product/11.2.0/dbhome_1/jdbc/lib/ojdbc6.jar</systemPath>
+            <systemPath>${project.basedir}/ojdbc6.jar</systemPath>
             <scope>system</scope>
         </dependency>
     </dependencies>
