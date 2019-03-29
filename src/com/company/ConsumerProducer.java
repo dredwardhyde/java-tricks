@@ -3,6 +3,9 @@ package com.company;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /*
     Produced 0
@@ -228,11 +231,49 @@ class Buffer {
     }
 }
 
+
+class BoundedBuffer {
+    private final Lock lock = new ReentrantLock();
+    private final Condition condition  = lock.newCondition();
+
+    private Queue<Integer> list;
+    private int size;
+
+    public BoundedBuffer(int size){
+        this.list = new LinkedList<>();
+        this.size = size;
+    }
+    public void add(int value) throws InterruptedException {
+        lock.lock();
+        try {
+            while (list.size() >= size)
+                condition.await();
+            list.add(value);
+            condition.signalAll();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public int poll() throws InterruptedException {
+        lock.lock();
+        try {
+            while (list.size() == 0)
+                condition.await();
+            int value = list.poll();
+            condition.signalAll();
+            return value;
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+
 public class ConsumerProducer {
 
     public static void main(String... args){
         try{
-            Buffer buffer = new Buffer(1);
+            BoundedBuffer buffer = new BoundedBuffer(10);
             Runnable producer = () -> {
                 try {
                     int value = 0;
