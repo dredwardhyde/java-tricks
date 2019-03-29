@@ -206,8 +206,10 @@ class Buffer {
             // we could use notifyAll(),
             // but there will be only one thread that's going to take value,
             // other threads will be locked on list.size() == 0
-            notify(); // wakes any arbitrary thread which is waiting on wait() - it could be consumer OR producer.
-                      // It will hang all threads if it wakes producer and queue is full.
+            notifyAll(); // notify() wakes any arbitrary thread which is waiting on wait() - it could be consumer OR producer.
+                         // It will hang all threads if it wakes producer and queue is full.
+                         // notifyAll() will wake all threads - producers will be able to add objects to queue if it's not full, and will wait() otherwise,
+                         // consumers will be able to read values from queue
         }
     }
     public int poll() throws InterruptedException {
@@ -220,7 +222,7 @@ class Buffer {
             }
             // with "if" and multiple consumers we could get NPE in next line
             int value = list.poll();
-            notify();
+            notifyAll(); // same situation as with notifyAll() in add()
             return value;
         }
     }
