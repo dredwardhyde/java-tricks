@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.List;
 
-public class WeirdExample {
+public class TypeInferenceError {
 
     // why it compiles ok?
     public static void main(String... args){
