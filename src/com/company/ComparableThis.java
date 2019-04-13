@@ -3,7 +3,7 @@ package com.company;
 
 import java.util.Objects;
 
-public class ComparableThis implements Comparable<ComparableThis>{
+public class ComparableThis implements Comparable<ComparableThis> {
 
     private Long value;
 

@@ -195,6 +195,7 @@ class Buffer {
         // our target size
         this.size = size;
     }
+
     public void add(int value) throws InterruptedException {
         // synchronized on "this" because we use one "list" we need to protect per Buffer object
         synchronized (this) {
@@ -210,11 +211,12 @@ class Buffer {
             // but there will be only one thread that's going to take value,
             // other threads will be locked on list.size() == 0
             notifyAll(); // notify() wakes any arbitrary thread which is waiting on wait() - it could be consumer OR producer.
-                         // It will hang all threads if it wakes producer and queue is full.
-                         // notifyAll() will wake all threads - producers will be able to add objects to queue if it's not full, and will wait() otherwise,
-                         // consumers will be able to read values from queue
+            // It will hang all threads if it wakes producer and queue is full.
+            // notifyAll() will wake all threads - producers will be able to add objects to queue if it's not full, and will wait() otherwise,
+            // consumers will be able to read values from queue
         }
     }
+
     public int poll() throws InterruptedException {
         synchronized (this) {
             // only size threads could take values from queue
@@ -234,15 +236,16 @@ class Buffer {
 
 class BoundedBuffer {
     private final Lock lock = new ReentrantLock();
-    private final Condition condition  = lock.newCondition();
+    private final Condition condition = lock.newCondition();
 
     private Queue<Integer> list;
     private int size;
 
-    public BoundedBuffer(int size){
+    public BoundedBuffer(int size) {
         this.list = new LinkedList<>();
         this.size = size;
     }
+
     public void add(int value) throws InterruptedException {
         lock.lock();
         try {
@@ -271,8 +274,8 @@ class BoundedBuffer {
 
 public class ConsumerProducer {
 
-    public static void main(String... args){
-        try{
+    public static void main(String... args) {
+        try {
             BoundedBuffer buffer = new BoundedBuffer(10);
             Runnable producer = () -> {
                 try {
@@ -280,7 +283,7 @@ public class ConsumerProducer {
                     while (true) {
                         buffer.add(value);
                         System.out.println("Produced " + value);
-                        value ++;
+                        value++;
                         Thread.sleep(50);
                     }
                 } catch (InterruptedException e) {
@@ -315,7 +318,7 @@ public class ConsumerProducer {
 
             consumerThread1.join();
             consumerThread2.join();
-        }catch (InterruptedException e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }

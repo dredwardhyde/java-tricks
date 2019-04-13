@@ -5,17 +5,26 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-class Account{
-    private String id =  UUID.randomUUID().toString();
+class Account {
+    private String id = UUID.randomUUID().toString();
     private long money = 1_000_000_000;
-    String getId() { return id; }
-    long getMoney() { return money; }
-    void setMoney(long money) { this.money = money; }
+
+    String getId() {
+        return id;
+    }
+
+    long getMoney() {
+        return money;
+    }
+
+    void setMoney(long money) {
+        this.money = money;
+    }
 }
 
 public class Accounts {
 
-    private static final List<Account>  accounts = new ArrayList<>();
+    private static final List<Account> accounts = new ArrayList<>();
 
     /*
     -server
@@ -50,7 +59,7 @@ public class Accounts {
     Nmb of Variables:1;  Duration:3629
      */
     public static void main(String... args) {
-        for(int i = 0; i < 100000; i++){
+        for (int i = 0; i < 100000; i++) {
             accounts.add(new Account());
         }
 
@@ -64,35 +73,35 @@ public class Accounts {
         }
     }
 
-    private static void transferMoney(Account from, long amount, Account to){
+    private static void transferMoney(Account from, long amount, Account to) {
 
         //sort by id to avoid deadlocks, see accounts_deadlock.txt for example
 
-        if(from.getId().compareTo(to.getId()) < 0){
-            synchronized (from){
-                synchronized (to){
+        if (from.getId().compareTo(to.getId()) < 0) {
+            synchronized (from) {
+                synchronized (to) {
                     long before = to.getMoney() - from.getMoney();
                     from.setMoney(from.getMoney() - amount);
                     to.setMoney(to.getMoney() + amount);
                     long after = to.getMoney() - from.getMoney();
-                    assert ((after - before) == 20 || (after - before) == 0) :  "NO SYNCHRONIZATION";
+                    assert ((after - before) == 20 || (after - before) == 0) : "NO SYNCHRONIZATION";
                 }
             }
-        }else{
-            synchronized (to){
-                synchronized (from){
+        } else {
+            synchronized (to) {
+                synchronized (from) {
                     long before = to.getMoney() - from.getMoney();
                     from.setMoney(from.getMoney() - amount);
                     to.setMoney(to.getMoney() + amount);
                     long after = to.getMoney() - from.getMoney();
-                    assert ((after - before) == 20 || (after - before) == 0) :  "NO SYNCHRONIZATION";
+                    assert ((after - before) == 20 || (after - before) == 0) : "NO SYNCHRONIZATION";
                 }
             }
         }
     }
 
     private void go(int n) {
-        try{
+        try {
             ExecutorService es = Executors.newFixedThreadPool(4);
             Collection<Task> cs = new ArrayList<>();
             cs.add(new Task(100, n));
@@ -104,7 +113,7 @@ public class Accounts {
             es.invokeAll(cs);
             es.shutdown();
             System.out.println("Nmb of Variables:" + n + ";  Duration:" + ((System.nanoTime() - start) / 1000000));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -139,7 +148,7 @@ public class Accounts {
                     transferMoney(accounts.get(first), 10, accounts.get(second));
                 }
                 // Throwable to catch AssertionError
-            }catch (Throwable e){
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
             return null;

@@ -11,6 +11,7 @@ public class TSXTest {
     final Object o = new Object();
     final int[] variables;
     ReentrantLock rl = new ReentrantLock(false);
+
     public TSXTest(int n) {
         this.N = n;
         variables = new int[N];
@@ -130,7 +131,7 @@ public class TSXTest {
         long start = System.nanoTime();
         es.invokeAll(cs);
         es.shutdown();
-        System.out.println("synchronized: "+ doSync + "; Nmb of Variables:" + N + ";  Duration:" + ((System.nanoTime() - start) / 1000000));
+        System.out.println("synchronized: " + doSync + "; Nmb of Variables:" + N + ";  Duration:" + ((System.nanoTime() - start) / 1000000));
 
     }
 

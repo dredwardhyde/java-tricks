@@ -1,6 +1,8 @@
 package com.company;
 
-class Other { static String hello = "Hello"; }
+class Other {
+    static String hello = "Hello";
+}
 
 public class StringLiterals {
     // true true true false true

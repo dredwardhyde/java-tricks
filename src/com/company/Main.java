@@ -40,7 +40,7 @@ class ClassWithExpensiveConstructor {
     }
 }
 
-public class Main{
+public class Main {
     @SuppressWarnings("unchecked")
     public static void main(String[] args) throws Exception {
         Constructor<Unsafe> unsafeConstructor = Unsafe.class.getDeclaredConstructor();
@@ -50,13 +50,13 @@ public class Main{
                 unsafe.allocateInstance(ClassWithExpensiveConstructor.class);
         System.out.println("Unsafe allocation: " + instance.getValue());
 
-        Constructor<ClassWithExpensiveConstructor> silentConstructor = ( Constructor<ClassWithExpensiveConstructor> )ReflectionFactory.getReflectionFactory()
+        Constructor<ClassWithExpensiveConstructor> silentConstructor = (Constructor<ClassWithExpensiveConstructor>) ReflectionFactory.getReflectionFactory()
                 .newConstructorForSerialization(ClassWithExpensiveConstructor.class, Object.class.getConstructor());
         silentConstructor.setAccessible(true);
         instance = silentConstructor.newInstance();
         System.out.println("Serialization constructor: " + instance.getValue());
 
-        silentConstructor = ( Constructor<ClassWithExpensiveConstructor> )ReflectionFactory.getReflectionFactory()
+        silentConstructor = (Constructor<ClassWithExpensiveConstructor>) ReflectionFactory.getReflectionFactory()
                 .newConstructorForSerialization(ClassWithExpensiveConstructor.class,
                         OtherClass.class.getDeclaredConstructor());
         silentConstructor.setAccessible(true);

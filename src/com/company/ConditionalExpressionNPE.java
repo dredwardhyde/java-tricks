@@ -2,7 +2,7 @@ package com.company;
 
 public class ConditionalExpressionNPE {
     // https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html
-    public static void main(String... args){
+    public static void main(String... args) {
         boolean isQuestion = false;
         // second isQuestion ? 42 : null is evaluated first
         // return type determined by table

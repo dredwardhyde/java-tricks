@@ -2,7 +2,7 @@ package com.company;
 
 
 public class ExceptionPreparing {
-    public static void main(String[] args) throws Throwable{
+    public static void main(String[] args) throws Throwable {
         try {
             Long.parseLong("not-long");
         } catch (NumberFormatException e) {

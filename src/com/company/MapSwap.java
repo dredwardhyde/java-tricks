@@ -18,7 +18,7 @@ import java.util.Map;
     {buildTool=maven, lang=java, IOC=jee}
  */
 public class MapSwap {
-    public static void main(String... args){
+    public static void main(String... args) {
         Map<String, String> map = new HashMap<>();
         map.put("buildTool", "maven");
         map.put("lang", "java");

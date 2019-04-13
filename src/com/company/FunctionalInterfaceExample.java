@@ -1,7 +1,7 @@
 package com.company;
 
 interface TestInterface<T> {
-    default void functionalOne(String test){
+    default void functionalOne(String test) {
         System.out.println(test);
     }
 
@@ -21,7 +21,8 @@ interface TestInterface<T> {
 // 9.4.1.3. Inheriting Methods with Override-Equivalent Signatures
 // If an interface I inherits a default method whose signature is override-equivalent with another method inherited by I,
 // then a compile-time error occurs. (This is the case whether the other method is abstract or default.)
-interface DerivedFunctionalInterface extends TestInterface<String>{ }
+interface DerivedFunctionalInterface extends TestInterface<String> {
+}
 
 class DerivedClassString implements TestInterface<String> { // ok, we need only to implement only 2 methods
 

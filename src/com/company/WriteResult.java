@@ -1,10 +1,10 @@
 package com.company;
 
-class WriteResult{
+class WriteResult {
     private long offset;
     private long size;
 
-    public WriteResult(long offset, long size){
+    public WriteResult(long offset, long size) {
         this.setOffset(offset);
         this.setSize(size);
     }

@@ -4,10 +4,10 @@ import java.util.*;
 
 public class ForEachRemainingExample {
 
-    private static void killThemAll(Collection<String> collection){
+    private static void killThemAll(Collection<String> collection) {
         Iterator<String> strings = collection.iterator();
         strings.forEachRemaining(e -> {
-            if(strings.hasNext()){
+            if (strings.hasNext()) {
                 strings.next();
                 strings.remove();
             }
@@ -28,7 +28,7 @@ public class ForEachRemainingExample {
         while (hasNext())
             action.accept(next());
     */
-    public static void main(String... args){
+    public static void main(String... args) {
         // ArrayList overrides default forEachRemaining to iterate over every element
         // it ignores all changes for current position in hasNext() and next() and works only with local vars
         killThemAll(new ArrayList<>(Arrays.asList("N", "S", "W", "S", "L", "S", "L", "V")));    // []

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class NoConcurrentModification {
 
-    public static void main(String... args){
+    public static void main(String... args) {
         try {
             List<String> list = Arrays.asList("String 1", "String 2", "String 3");
             list.stream().forEach(x -> {
@@ -14,7 +14,7 @@ public class NoConcurrentModification {
                     list.remove(x);
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             /*
             java.lang.UnsupportedOperationException
                 at java.util.AbstractList.remove(AbstractList.java:161)
@@ -28,15 +28,15 @@ public class NoConcurrentModification {
             e.printStackTrace();
         }
 
-        try{
+        try {
             List<String> list2 = new ArrayList<>(Arrays.asList("String 1", "String 2", "String 3"));
             list2.stream().forEach(x -> {
-                if(x.equals("String 2")){
+                if (x.equals("String 2")) {
                     // really removes object, all objects are moved 1 index to the left, iterator().next() returns null
                     list2.remove(x);
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             /*
             java.lang.NullPointerException
                 at com.company.NoConcurrentModification.lambda$main$1(NoConcurrentModification.java:24)
@@ -47,14 +47,14 @@ public class NoConcurrentModification {
             e.printStackTrace();
         }
 
-        try{
+        try {
             List<String> list2 = new ArrayList<>(Arrays.asList("String 1", "String 2", "String 3"));
             list2.forEach(x -> {
-                if(x.equals("String 2")){
+                if (x.equals("String 2")) {
                     list2.remove(x);
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             /*
             java.util.ConcurrentModificationException
                 at java.util.ArrayList.forEach(ArrayList.java:1260)

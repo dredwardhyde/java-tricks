@@ -1,6 +1,7 @@
 package com.company;
 
 import sun.misc.Unsafe;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
@@ -17,16 +18,20 @@ public class ManualMonitor {
                 }
             }
             throw new IllegalStateException("Unsafe field not found");
-        } catch (Exception e) { throw new IllegalStateException("Could not initialize unsafe",e); }
+        } catch (Exception e) {
+            throw new IllegalStateException("Could not initialize unsafe", e);
+        }
     }
 
     public static void main(String... args) throws InterruptedException {
         Thread t = new Thread() {
             public void run() {
                 getUnsafe().monitorEnter(ManualMonitor.class);
-                try{
+                try {
                     Thread.sleep(10_000);
-                }catch (Exception e){ e.printStackTrace(); }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 getUnsafe().monitorExit(ManualMonitor.class);
             }
         };

@@ -18,7 +18,7 @@ public class SizeOf {
             Constructor<Unsafe> unsafeConstructor = Unsafe.class.getDeclaredConstructor();
             unsafeConstructor.setAccessible(true);
             unsafe = unsafeConstructor.newInstance();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -35,14 +35,14 @@ public class SizeOf {
         return maximumOffset + 8;
     }
 
-    public static long actualSize(Object obj) throws Exception{
+    public static long actualSize(Object obj) throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(baos);
         oos.writeObject(obj);
         return baos.toByteArray().length;
     }
 
-    public static WriteResult copyFromHeapToOffHeap(Object obj) throws Exception{
+    public static WriteResult copyFromHeapToOffHeap(Object obj) throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(baos);
         oos.writeObject(obj);
@@ -50,8 +50,8 @@ public class SizeOf {
         long start = unsafe.allocateMemory(object.length);
         long tmp = start;
         System.out.println("Start: " + start);
-        for(byte b : object){
-            unsafe.putByte(start,b);
+        for (byte b : object) {
+            unsafe.putByte(start, b);
             start++;
         }
         baos.close();
@@ -69,9 +69,9 @@ public class SizeOf {
         long start = System.nanoTime();
         System.out.println(sizeOf(map1.getClass()) + " in " + (System.nanoTime() - start) / 1000000000.0);
         start = System.nanoTime();
-        System.out.println("Get object with instrument: " + ObjectSizeFetcher.getObjectSize(map1)  + " in " + (System.nanoTime() - start) / 1000000000.0);
+        System.out.println("Get object with instrument: " + ObjectSizeFetcher.getObjectSize(map1) + " in " + (System.nanoTime() - start) / 1000000000.0);
         start = System.nanoTime();
-        System.out.println("Actual size:" + actualSize(map1)  + " in " + (System.nanoTime() - start) / 1000000000.0);
+        System.out.println("Actual size:" + actualSize(map1) + " in " + (System.nanoTime() - start) / 1000000000.0);
         start = System.nanoTime();
         WriteResult result = copyFromHeapToOffHeap(map1);
         System.out.println("Written in " + (System.nanoTime() - start) / 1000000000.0 + "s. end: " + result.getOffset() + " size: " + result.getSize());

@@ -11,7 +11,7 @@ public class SoftAndWeakReferenceExample {
         hello, world
         null
      */
-    public static void main(String... args){
+    public static void main(String... args) {
         StringBuilder builder = new StringBuilder("Lol");
         SoftReference<StringBuilder> reference1 = new SoftReference<>(builder);
         builder = null;

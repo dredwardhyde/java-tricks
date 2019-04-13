@@ -14,11 +14,10 @@ public class BiasLocking {
         final Vector<Integer> stringBuffer = new Vector<Integer>(15_000_000);
 
         for (int i = 0; i < COUNT; i++) {
-                stringBuffer.add(1);
+            stringBuffer.add(1);
         }
         long n2 = System.nanoTime();
         System.out.println("##################################" + (n2 - n1) + " Result main: " + stringBuffer.size() + " 1 op = " + (n2 - n1) / COUNT);
-
 
 
         Thread thread = new Thread(new Runnable() {
@@ -31,9 +30,9 @@ public class BiasLocking {
                 long n2 = System.nanoTime();
                 System.out.println("##################################" + (n2 - n1) + " Result work: " + stringBuffer.size() + " 1 op = " + (n2 - n1) / COUNT);
 
-                try{
+                try {
                     Thread.sleep(22_000);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 

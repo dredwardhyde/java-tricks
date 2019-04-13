@@ -52,16 +52,16 @@ public class ReturnFromFinally {
         23 ireturn  // return from method with value i = 3 -- return here if Throwable occurred in catch
      */
 
-    private static int lol2(){
+    private static int lol2() {
         int i = 0;
 
-        try{
+        try {
             i = 1;
             return i;
-        }catch (Exception e){
+        } catch (Exception e) {
             i = 2;
             return i;
-        }finally {
+        } finally {
             i = 3;
             return i;
         }
@@ -111,16 +111,16 @@ public class ReturnFromFinally {
         28 iload_0  // load value from local variable
         29 ireturn  // return from method with value i = 3-- if throwable (not Exception) occurred in try or any exception in catch
      */
-    private static int lol1(){
+    private static int lol1() {
         int i = 0;
-        try{
+        try {
             i = 1;
             throw new Exception();
-        }catch (Exception e){
+        } catch (Exception e) {
             i = 2;
             e.printStackTrace();
             return i;
-        }finally {
+        } finally {
             i = 3;
             return i;
         }
@@ -168,21 +168,21 @@ public class ReturnFromFinally {
         23 athrow   // and throw it!
      */
 
-    private static int lol3(){
+    private static int lol3() {
         int i = 0;
-        try{
+        try {
             i = 1;
             return i;
-        }catch (Exception e){
+        } catch (Exception e) {
             i = 2;
             return i;
-        }finally {
+        } finally {
             i = 3;
         }
     }
 
 
-    public static void main(String... args){
+    public static void main(String... args) {
         // prints 3
         System.out.println(lol1());
         // prints 3

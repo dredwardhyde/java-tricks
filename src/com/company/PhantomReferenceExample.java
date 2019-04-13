@@ -10,12 +10,14 @@ import java.util.List;
 @SuppressWarnings("WeakerAccess")
 class LargeObjectFinalizer extends PhantomReference<Object> {
     private Class type;
+
     public LargeObjectFinalizer(Object referent, ReferenceQueue<? super Object> q) {
         super(referent, q);
         this.type = referent.getClass();
     }
+
     public void finalizeResources() {
-        System.out.println("clearing in thread: "+ type.getName() + " " + Thread.currentThread().getName());
+        System.out.println("clearing in thread: " + type.getName() + " " + Thread.currentThread().getName());
     }
 }
 
@@ -30,7 +32,9 @@ class A {
     }
 }
 
-class B { }
+class B {
+}
+
 /*
     If the garbage collector determines at a certain point in time that the referent of a phantom reference
     is phantom reachable, then at that time or at some later time it will enqueue the reference.
@@ -75,7 +79,7 @@ public class PhantomReferenceExample {
         clearing in thread: com.company.B main
         clearing in thread: com.company.B main
      */
-    public static void main(String... args){
+    public static void main(String... args) {
         ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>();
         List<LargeObjectFinalizer> references = new ArrayList<>();
 
@@ -103,7 +107,7 @@ public class PhantomReferenceExample {
 
         Reference<?> referenceFromQueue;
         while ((referenceFromQueue = referenceQueue.poll()) != null) {
-            ((LargeObjectFinalizer)referenceFromQueue).finalizeResources();
+            ((LargeObjectFinalizer) referenceFromQueue).finalizeResources();
             referenceFromQueue.clear();
         }
 
@@ -113,7 +117,7 @@ public class PhantomReferenceExample {
         System.out.println("Third gc cycle - PhantomReference objects B are enqueued");
 
         while ((referenceFromQueue = referenceQueue.poll()) != null) {
-            ((LargeObjectFinalizer)referenceFromQueue).finalizeResources();
+            ((LargeObjectFinalizer) referenceFromQueue).finalizeResources();
             referenceFromQueue.clear();
         }
     }

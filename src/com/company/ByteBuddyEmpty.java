@@ -10,13 +10,15 @@ import static net.bytebuddy.matcher.ElementMatchers.any;
 
 interface Testable {
     String getTest();
+
     void setTest(String test);
+
     void invokeTest();
 }
 
 public class ByteBuddyEmpty {
 
-    public static void main(String args[]) throws Exception{
+    public static void main(String args[]) throws Exception {
         int pid = Integer.parseInt(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
 
         System.out.println("PID: " + pid);
@@ -35,7 +37,7 @@ public class ByteBuddyEmpty {
 
         System.out.println(stubClass.getName());
 
-        Testable stub = (Testable)stubClass.newInstance();
+        Testable stub = (Testable) stubClass.newInstance();
 
         stub.setTest("lol");
         stub.invokeTest();

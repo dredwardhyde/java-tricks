@@ -17,12 +17,7 @@ package com.company.cache;
  */
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.nio.charset.Charset;
 
 /**
@@ -63,10 +58,10 @@ class StrictLineReader implements Closeable {
     /**
      * Constructs a new {@code LineReader} with the specified charset and the default capacity.
      *
-     * @param in the {@code InputStream} to read data from.
+     * @param in      the {@code InputStream} to read data from.
      * @param charset the charset used to decode data. Only US-ASCII, UTF-8 and ISO-8859-1 are
-     * supported.
-     * @throws NullPointerException if {@code in} or {@code charset} is null.
+     *                supported.
+     * @throws NullPointerException     if {@code in} or {@code charset} is null.
      * @throws IllegalArgumentException if the specified charset is not supported.
      */
     public StrictLineReader(InputStream in, Charset charset) {
@@ -76,13 +71,13 @@ class StrictLineReader implements Closeable {
     /**
      * Constructs a new {@code LineReader} with the specified capacity and charset.
      *
-     * @param in the {@code InputStream} to read data from.
+     * @param in       the {@code InputStream} to read data from.
      * @param capacity the capacity of the buffer.
-     * @param charset the charset used to decode data. Only US-ASCII, UTF-8 and ISO-8859-1 are
-     * supported.
-     * @throws NullPointerException if {@code in} or {@code charset} is null.
+     * @param charset  the charset used to decode data. Only US-ASCII, UTF-8 and ISO-8859-1 are
+     *                 supported.
+     * @throws NullPointerException     if {@code in} or {@code charset} is null.
      * @throws IllegalArgumentException if {@code capacity} is negative or zero
-     * or the specified charset is not supported.
+     *                                  or the specified charset is not supported.
      */
     public StrictLineReader(InputStream in, int capacity, Charset charset) {
         if (in == null || charset == null) {
@@ -120,7 +115,7 @@ class StrictLineReader implements Closeable {
      * this end of line marker is not included in the result.
      *
      * @return the next line from the input.
-     * @throws IOException for underlying {@code InputStream} errors.
+     * @throws IOException  for underlying {@code InputStream} errors.
      * @throws EOFException for the end of source stream.
      */
     public String readLine() throws IOException {

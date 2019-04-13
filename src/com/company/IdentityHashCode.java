@@ -9,7 +9,7 @@ package com.company;
 public class IdentityHashCode {
 
 
-    public static void main(String... args){
+    public static void main(String... args) {
         Integer x = 100;
         Integer y = 100;
         Integer z = Integer.parseInt("100");

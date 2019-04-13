@@ -1,11 +1,14 @@
 package com.company;
 
 import java.time.Instant;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.IntStream;
 
 public class WaitForExpiration {
-    public static void main(String... args) throws Exception{
+    public static void main(String... args) throws Exception {
         int numberOfThreads = 6;
         ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
 
@@ -25,17 +28,21 @@ public class WaitForExpiration {
 
         //Moving elements from fast queue to slow queue  by single thread
         Thread retainer = new Thread(() -> {
-            while(true){
+            while (true) {
                 Instant instant = events.poll();
-                if(instant != null) try{ eventsToConsume.put(instant); }catch (InterruptedException e){e.printStackTrace();}
+                if (instant != null) try {
+                    eventsToConsume.put(instant);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         retainer.start();
 
         //Querying slow queue and consuming elements that already expired
         Thread expirerer = new Thread(() -> {
-            while(true){
-                eventsToConsume.stream().filter(x -> x.toEpochMilli() < System.currentTimeMillis()).forEach((Instant key)->{
+            while (true) {
+                eventsToConsume.stream().filter(x -> x.toEpochMilli() < System.currentTimeMillis()).forEach((Instant key) -> {
                     System.out.println("Current time: " + Instant.now() + " key: " + key);
                     eventsToConsume.remove(key);
                 });

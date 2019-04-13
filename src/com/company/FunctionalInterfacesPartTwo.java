@@ -2,7 +2,7 @@ package com.company;
 
 
 @FunctionalInterface
-interface OriginalPredicate<T>{
+interface OriginalPredicate<T> {
     boolean test(T o);
 }
 
@@ -13,7 +13,7 @@ interface CopyPredicate {
 }
 
 public class FunctionalInterfacesPartTwo {
-    public static void main(String... args){
+    public static void main(String... args) {
         OriginalPredicate<Object> lambda = (Object obj) -> "test".equals(obj);
         OriginalPredicate<Object> methodRef = "test"::equals;
 
