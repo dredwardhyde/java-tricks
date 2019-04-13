@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="SoftAndWeakReferenceExample" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="com.company.SoftAndWeakReferenceExample" />
-    <module name="jvm-tricks" />
+    <module name="java-tricks" />
     <option name="VM_PARAMETERS" value="-XX:SoftRefLRUPolicyMSPerMB=10 -Xmx20m" />
     <extension name="coverage">
       <pattern>

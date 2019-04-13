@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="ManualMonitor" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="com.company.ManualMonitor" />
-    <module name="jvm-tricks" />
+    <module name="java-tricks" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.company.*" />

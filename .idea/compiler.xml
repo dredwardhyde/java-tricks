@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="jvm-tricks" />
+        <module name="java-tricks" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="jvm-tricks" target="1.8" />
+      <module name="java-tricks" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
