@@ -1,11 +1,10 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Memory" type="Application" factoryName="Application" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="com.company.Memory" />
+  <configuration default="false" name="ManualMonitor" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="MAIN_CLASS_NAME" value="com.company.ManualMonitor" />
     <module name="jvm-tricks" />
-    <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="com.company.cache.*" />
+        <option name="PATTERN" value="com.company.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
