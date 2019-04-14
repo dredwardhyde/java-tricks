@@ -80,30 +80,40 @@ public class PhantomReferenceExample {
         clearing in thread: com.company.B main
      */
     public static void main(String... args) {
-        ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>();
-        List<LargeObjectFinalizer> references = new ArrayList<>();
+        ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>(); // Phantom-reachable objects will be enqueued here
+        List<LargeObjectFinalizer> references = new ArrayList<>(); //Strongly-reachable PhantomReferences
 
-        List<A> largeObjectsA = new ArrayList<>();
-        List<B> largeObjectsB = new ArrayList<>();
+        List<A> largeObjectsA = new ArrayList<>(); // Strongly-reachable objects of type A
+        List<B> largeObjectsB = new ArrayList<>(); // Strongly-reachable objects of type B
 
         for (int i = 0; i < 10; ++i) {
             A a = new A();
             B b = new B();
-            largeObjectsA.add(a);
-            largeObjectsB.add(b);
-            references.add(new LargeObjectFinalizer(a, referenceQueue));
-            references.add(new LargeObjectFinalizer(b, referenceQueue));
+            largeObjectsA.add(a); // Add strong reference for object of type A
+            largeObjectsB.add(b); // Add strong reference for object of type B
+            references.add(new LargeObjectFinalizer(a, referenceQueue)); // Add phantom reference for that object A
+            references.add(new LargeObjectFinalizer(b, referenceQueue)); // Add phantom reference for that object B
         }
 
-        largeObjectsA = null; // free objects A
+        // At that point what we have:
+        // referenceQueue - 0 objects
+        // references - 20 phantom references of objects type A & B
+        // largeObjectsA - 10 strong references of objects type A
+        // largeObjectsA - 10 strong references of objects type B
+
+        largeObjectsA = null; // delete all strong-references for objects of type A
 
         // Run first GC and force calling finalize() on all freed objects
         // some of them in Finalizer thread and some - in Secondary finalizer
         System.out.println("First gc cycle - finalize methods were invoked on objects A");
         System.gc();
         System.runFinalization();
+        System.out.println("Phantom reachable objects: " + references.size());
         System.out.println("Second gc cycle - PhantomReference objects A are enqueued");
         System.gc();
+        // Here we have all 10 objects of type A enqueued to referenceFromQueue
+        // BUT their PhantomReference objects are still strongly-reachable
+        System.out.println("Phantom reachable objects: " + references.size());
 
         Reference<?> referenceFromQueue;
         while ((referenceFromQueue = referenceQueue.poll()) != null) {
@@ -111,11 +121,11 @@ public class PhantomReferenceExample {
             referenceFromQueue.clear();
         }
 
-        largeObjectsB = null; // free objects B
+        largeObjectsB = null; // delete all strong-references for objects of type B
         System.gc(); // Objects B don't override finalize() so they are expected to be collected during their first cycle
 
         System.out.println("Third gc cycle - PhantomReference objects B are enqueued");
-
+        System.out.println("Phantom reachable objects: " + references.size());
         while ((referenceFromQueue = referenceQueue.poll()) != null) {
             ((LargeObjectFinalizer) referenceFromQueue).finalizeResources();
             referenceFromQueue.clear();
