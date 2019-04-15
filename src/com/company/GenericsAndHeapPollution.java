@@ -104,7 +104,8 @@ public class GenericsAndHeapPollution {
         // However, you are not allowed to put anything into a covariant structure.
         Number n = myNums3.get(0);
 //        myNums3.add(45); //compiler error add (capture<? extends java.lang.Number>) in List cannot be applied to (int)
-
+        // adding Integer is valid only for List<Number> and List<Integer>, List<Long>, but not List<Double>
+        myNums3.add(null); // allowed because of reasons ))
         // This would not be allowed, because Java cannot guarantee what is the actual type of the object in the generic
         // structure. It can be anything that extends Number, but the compiler cannot be sure. So you can read, but not write.
 
@@ -117,9 +118,10 @@ public class GenericsAndHeapPollution {
         myObjs.add("Luke");
         myObjs.add("Obi-wan");
 
-        List<? super Number> myNums = myObjs;
-        myNums.add(10);
-        myNums.add(3.14);
+        List<? super Number> myNums = myObjs; // you could add all that ? extends Number
+        myNums.add(10); // Integer
+        myNums.add(3.14); // Double
+        myNums.add(null); // null, Number
 
         // In this case, the actual nature of the object is a List of Objects, and through contravariance,
         // you can put Numbers into it, basically because all numbers have Object as their common ancestor.
