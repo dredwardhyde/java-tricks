@@ -1,19 +1,22 @@
 package com.company;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-class ClassA<T>{
+class ClassA<T> {
     private T t;
 
-    public void set(T t) { this.t = t; }
-    public T get() { return t; }
+    public void set(T t) {
+        this.t = t;
+    }
+
+    public T get() {
+        return t;
+    }
 }
 
 // class first, then interfaces
-class ClassB<T extends Number & Serializable & Cloneable>{
+class ClassB<T extends Number & Serializable & Cloneable> {
     private T t;
     private Number number;
     private Serializable serializable;
@@ -25,7 +28,10 @@ class ClassB<T extends Number & Serializable & Cloneable>{
         this.serializable = t;
         this.cloneable = t;
     }
-    public T get() { return t; }
+
+    public T get() {
+        return t;
+    }
 }
 
 // class ClassC<T super Number> { } -- super is not allowed here also
@@ -35,9 +41,7 @@ public class GenericsExplained {
     // public <T super Number> void fill(T list) {} -- compile time error because T could be any type up to Object,
     // only methods of Object are guaranteed
 
-    public <T extends Number> void fill(T list) {} // methods of Number are guaranteed
-
-    public static void main(String... args){
+    public static void main(String... args) {
         // what compiler should see - Lists of all types that extends Number and Number itself
         List<? extends Number> myNums3 = new ArrayList<Integer>();
         List<? extends Number> myNums4 = new ArrayList<Float>();
@@ -59,14 +63,31 @@ public class GenericsExplained {
         // myNums.add(new Object()); // wrong because you can not downcast Object to Number
 
 
-
-        List<Integer> myInts4 = Arrays.asList(1,2,3,4);
+        List<Integer> myInts4 = Arrays.asList(1, 2, 3, 4);
         List<Double> myDoubles4 = Arrays.asList(3.14, 6.28);
         List<Object> myObjs4 = new ArrayList<>();
 
         copy(myInts4, myObjs4);
         copy(myDoubles4, myObjs4);
 
+        List<ForMax> forMaxList = new ArrayList<>();
+
+        // we could call max with ForMax extends ParentMax implements Comparable<ParentMax>
+        max(forMaxList);
+
+        // collections of child class, but comparator from parent
+        maxWithComparator(forMaxList, new Comparator<ParentMax>() {
+            @Override
+            public int compare(ParentMax o1, ParentMax o2) {
+                return 0;
+            }
+        });
+    }
+
+    public static void copy(List<? extends Number> source, List<? super Number> destiny) {
+        for (Number number : source) {
+            destiny.add(number);
+        }
     }
 
     // Get/Put Principle
@@ -78,9 +99,32 @@ public class GenericsExplained {
     // The best example I have is the following that copies any kind of numbers
     // from one list into another list. It only gets items from the source, and it only puts items in the destiny.
 
-    public static void copy(List<? extends Number> source, List<? super Number> destiny) {
-        for(Number number : source) {
-            destiny.add(number);
-        }
+    // Here's first bound is Object, not Comparable, so erasure is:
+    // public static Object max(Collection coll)
+    public static <T extends Object & Comparable<? super T>> T max(Collection<? extends T> coll) {
+        return Collections.max(coll);
+    }
+
+    // receives any type that extends Object and implements Comparable of itself or any parent type
+
+    // During the type erasure process, the Java compiler erases all type parameters and replaces each
+    // with its first bound if the type parameter is bounded, or Object if the type parameter is unbounded.
+
+    public static <T> T maxWithComparator(Collection<? extends T> coll, Comparator<? super T> comparator) {
+        return Collections.max(coll, comparator);
+    }
+
+    public <T extends Number> void fill(T list) {
+    } // methods of Number are guaranteed
+}
+
+class ParentMax {
+}
+
+class ForMax extends ParentMax implements Comparable<ParentMax> {
+
+    @Override
+    public int compareTo(ParentMax o) {
+        return 0;
     }
 }
