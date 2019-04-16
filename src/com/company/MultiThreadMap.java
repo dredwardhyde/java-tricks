@@ -30,7 +30,7 @@ public class MultiThreadMap {
         return false;
     }
 
-    public static void main(String args[]) {
+    public static void main(String... args) {
 
         ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 

@@ -18,7 +18,7 @@ interface Testable {
 
 public class ByteBuddyEmpty {
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         int pid = Integer.parseInt(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
 
         System.out.println("PID: " + pid);
