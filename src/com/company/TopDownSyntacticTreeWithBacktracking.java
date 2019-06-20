@@ -15,16 +15,13 @@ class GrammarElement {
     boolean isEmpty() { return token.equals("~");}
     @Override
     public String toString() { return "GrammarElement{token='" + token + "\', isTerminal=" + isTerminal + '}'; }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GrammarElement that = (GrammarElement) o;
-        return isTerminal == that.isTerminal &&
-                Objects.equals(token, that.token);
+        return isTerminal == that.isTerminal && Objects.equals(token, that.token);
     }
-
     @Override
     public int hashCode() { return Objects.hash(token, isTerminal); }
 }
@@ -46,11 +43,8 @@ class ParseTreeNode {
     ParseTreeNode getParent() { return parent; }
     int getFinalGrowGroup() { return finalGrowGroup; }
     void setFinalGrowGroup(int finalGrowGroup) { this.finalGrowGroup = finalGrowGroup; }
-
     @Override
-    public String toString() {
-        return "ParseTreeNode{" + "token=" + token + ", children=" + children + '}';
-    }
+    public String toString() { return "ParseTreeNode{" + "token=" + token + ", children=" + children + '}'; }
 }
 
 class CrownElement {
