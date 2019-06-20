@@ -12,6 +12,7 @@ class GrammarElement {
     }
     String getToken() { return token; }
     boolean isTerminal() { return isTerminal; }
+    boolean isEmpty() { return token.equals("~");}
     @Override
     public String toString() { return "GrammarElement{token='" + token + "\', isTerminal=" + isTerminal + '}'; }
 
@@ -73,7 +74,7 @@ public class TopDownSyntacticTreeWithBacktracking {
     public static void main(String... args) {
         Map<String, String> grammar = new LinkedHashMap<>();
         String startSymbol = "S";
-        grammar.put("S", "cAdB");
+        grammar.put("S", "cAdBf");
         grammar.put("A", "ab|a");
         grammar.put("B", "z|~");
 
@@ -97,24 +98,6 @@ public class TopDownSyntacticTreeWithBacktracking {
             processedGrammar.put(keyElement, groups);
         }
 
-        //{GrammarElement{token='S', isTerminal=false}=
-        //              [
-        //               [
-        //                GrammarElement{token='c', isTerminal=true},
-        //                GrammarElement{token='A', isTerminal=false},
-        //                GrammarElement{token='d', isTerminal=true}
-        //               ]
-        //              ],
-        // GrammarElement{token='A', isTerminal=false}=
-        //              [
-        //               [
-        //                GrammarElement{token='a', isTerminal=true},
-        //                GrammarElement{token='b', isTerminal=true}
-        //               ],
-        //               [
-        //                GrammarElement{token='a', isTerminal=true}
-        //               ]
-        //              ]}
         System.out.println(processedGrammar);
 
         try{
@@ -128,39 +111,19 @@ public class TopDownSyntacticTreeWithBacktracking {
         }catch (RuntimeException e){
             e.printStackTrace();
         }
-        //=========ParseTreeNode{token=GrammarElement{token='S', isTerminal=false},
-        //                       children=[ParseTreeNode{token=GrammarElement{token='c', isTerminal=true}, children=null},
-        //                                 ParseTreeNode{token=GrammarElement{token='A', isTerminal=false},
-        //                                               children=[ParseTreeNode{token=GrammarElement{token='a', isTerminal=true}, children=null},
-        //                                 ParseTreeNode{token=GrammarElement{token='b', isTerminal=true}, children=null}]},
-        //                                 ParseTreeNode{token=GrammarElement{token='d', isTerminal=true}, children=null}]}
+
         try{
             System.out.println("========= cab: " + makeParseTree(processedGrammar, startGrammarElement, "cab"));
         }catch (RuntimeException e){
             e.printStackTrace();
         }
 
-        //=========ParseTreeNode{token=GrammarElement{token='S', isTerminal=false},
-        //                       children=[ParseTreeNode{token=GrammarElement{token='c', isTerminal=true}, children=null},
-        //                                 ParseTreeNode{token=GrammarElement{token='A', isTerminal=false},
-        //                                               children=[
-        //                                                         ParseTreeNode{token=GrammarElement{token='a', isTerminal=true}, children=null},
-        //                                                         ParseTreeNode{token=GrammarElement{token='b', isTerminal=true}, children=null}
-        //                                                        ]},
-        //                                 ParseTreeNode{token=GrammarElement{token='d', isTerminal=true}, children=null}]}
         try{
             System.out.println("========= cabd: " + makeParseTree(processedGrammar, startGrammarElement, "cabd"));
         }catch (RuntimeException e){
             e.printStackTrace();
         }
 
-        //=========ParseTreeNode{token=GrammarElement{token='S', isTerminal=false},
-        //                       children=[ParseTreeNode{token=GrammarElement{token='c', isTerminal=true}, children=null},
-        //                                 ParseTreeNode{token=GrammarElement{token='A', isTerminal=false},
-        //                                               children=[
-        //                                                         ParseTreeNode{token=GrammarElement{token='a', isTerminal=true}, children=null}
-        //                                                        ]},
-        //                                 ParseTreeNode{token=GrammarElement{token='d', isTerminal=true}, children=null}]}
         try{
             System.out.println("========= cad: " + makeParseTree(processedGrammar, startGrammarElement, "cad"));
         }catch (RuntimeException e){
@@ -178,6 +141,19 @@ public class TopDownSyntacticTreeWithBacktracking {
         }catch (RuntimeException e){
             e.printStackTrace();
         }
+
+        try{
+            System.out.println("========= cabdzf: " + makeParseTree(processedGrammar, startGrammarElement, "cabdzf"));
+        }catch (RuntimeException e){
+            e.printStackTrace();
+        }
+
+        try{
+            System.out.println("========= cabdf: " + makeParseTree(processedGrammar, startGrammarElement, "cabdf"));
+        }catch (RuntimeException e){
+            e.printStackTrace();
+        }
+
     }
 
     private static ParseTreeNode makeParseTree(Map<GrammarElement, List<List<GrammarElement>>> processedGrammar, GrammarElement startGrammarElement, String input){
@@ -212,7 +188,6 @@ public class TopDownSyntacticTreeWithBacktracking {
 
             // если терминалы равны друг другу - уходим на следующий цикл и сравниваем следующий терминал из входной строки и короны
             if (Character.valueOf(input.charAt(currentChar)).equals(crown.get(currentChar).getElement())) {
-                System.out.println("Equal terminal at char " + currentChar);
                 currentChar++;
             } else {
                 // если символы не равны друг другу и это последний символ в короне и потенциала для роста нет, потому что следующий нетерминал либо отсутствует или он равен текущему и все группы уже перебраны
@@ -229,8 +204,6 @@ public class TopDownSyntacticTreeWithBacktracking {
                     latestGrowGroup++;
                     // откатываем инпут до последнего корректного роста
                     currentChar = latestGrowIndex;
-                    System.out.println("Revert grow with group: " + latestGrowGroup);
-                    System.out.println("Crown after removal: " + crown);
                     nextGrowNode = addChildren(latestGrowNode, crown, processedGrammar, latestGrowGroup);
                     System.out.println("B: " + crown);
                 }
@@ -241,7 +214,6 @@ public class TopDownSyntacticTreeWithBacktracking {
     }
 
     private static ParseTreeNode addChildren(ParseTreeNode node, List<CrownElement> crown, Map<GrammarElement, List<List<GrammarElement>>> processedGrammar, int group) {
-        System.out.println("GROWING ON " + node.getToken().getToken());
         ParseTreeNode nextGrowNode = null;
         List<ParseTreeNode> children = new ArrayList<>();
         boolean foundNonTerminal = false;
@@ -251,12 +223,11 @@ public class TopDownSyntacticTreeWithBacktracking {
         for (GrammarElement x : processedGrammar.get(node.getToken()).get(group)) {
             ParseTreeNode parseTreeNode = new ParseTreeNode(x, node);
             if (x.isTerminal() && !foundNonTerminal) crown.add(new CrownElement(node, x.getToken().charAt(0)));
-            if (!x.isTerminal() && nextGrowNode == null) {
+            if (!x.isTerminal() && !x.isEmpty() && nextGrowNode == null) {
                 nextGrowNode = parseTreeNode;
                 foundNonTerminal = true;
             }
             // а вот дочерние узлы добавляем безусловно
-            System.out.println("ADDING NODE " + parseTreeNode + " TO NODE " + node);
             children.add(parseTreeNode);
         }
         // а если при добавлении дочерних узлов слева направо мы не встретили нетерминальный символ, то нужно продолжить наращивать крону
@@ -273,7 +244,7 @@ public class TopDownSyntacticTreeWithBacktracking {
                 GrammarElement x = lastLeafs.get(i);
                 if (x.isTerminal() && !foundNonTerminal)
                     crown.add(new CrownElement(node.getParent(), x.getToken().charAt(0)));
-                if (!x.isTerminal()) {
+                if (!x.isTerminal() && !x.isEmpty()) {
                     foundNonTerminal = true;
                     // тут я добавляю как следующий узел для роста нетерминал который встретился при добавлении родительских терминалов
                     // возможно это правильно, нужно проверить с грамматикой в которой это возможно
@@ -286,18 +257,18 @@ public class TopDownSyntacticTreeWithBacktracking {
                     }
                 }
             }
-            System.out.println("Grown last leafs: " + crown);
         }
-        System.out.println("End of adding children: " + nextGrowNode);
         return nextGrowNode;
     }
 
     private static void removeChildren(ParseTreeNode node, List<CrownElement> crown) {
         int startIdx = -1;
+        // ищем слева направо в короне первый элемент который был добавлен при росте по узлу node
         for (int i = 0; i < crown.size(); i++) {
-            if (crown.get(i).getParent().getToken().equals(node.getToken())) startIdx = i;
+            if (crown.get(i).getParent().getToken().equals(node.getToken())) {startIdx = i;break;}
         }
-        for (int i = startIdx - 1; i < crown.size(); ) {
+        // и потом удаляем начиная с него всю корону
+        for (int i = startIdx; i < crown.size(); ) {
             crown.remove(i);
         }
         node.setChildren(null);
