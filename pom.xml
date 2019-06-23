@@ -46,6 +46,11 @@
             <systemPath>${project.basedir}/ojdbc6.jar</systemPath>
             <scope>system</scope>
         </dependency>
+        <dependency>
+            <groupId>org.openjdk.jol</groupId>
+            <artifactId>jol-core</artifactId>
+            <version>0.10-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
