@@ -1,7 +1,10 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="PhantomReferenceExample" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="ALTERNATIVE_JRE_PATH" value="$USER_HOME$/jdk-12.0.1-edwardhyde/jdk" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="com.company.PhantomReferenceExample" />
     <module name="java-tricks" />
+    <option name="VM_PARAMETERS" value="-Xlog:safepoint+stats=debug,gc+stats,interpreter+oopmap=debug:stdout:uptimemillis -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:-UseBiasedLocking -Xint" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.company.*" />
