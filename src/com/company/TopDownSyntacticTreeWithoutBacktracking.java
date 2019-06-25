@@ -1,10 +1,7 @@
 package com.company;
 
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TopDownSyntacticTreeWithoutBacktracking {
     public static void main(String... args) {
@@ -14,23 +11,7 @@ public class TopDownSyntacticTreeWithoutBacktracking {
         grammar.put("B", "g|~");
         grammar.put("C", "h|~");
 
-        Map<GrammarElement, List<List<GrammarElement>>> processedGrammar = new LinkedHashMap<>();
-
-        for (Map.Entry<String, String> entry : grammar.entrySet()) {
-            GrammarElement keyElement = new GrammarElement(entry.getKey(), false);
-            List<List<GrammarElement>> groups = new ArrayList<>();
-            List<GrammarElement> currentGroup = new ArrayList<>();
-            groups.add(currentGroup);
-            for (char c : entry.getValue().toCharArray()) {
-                if (c == '|') {
-                    currentGroup = new ArrayList<>();
-                    groups.add(currentGroup);
-                    continue;
-                }
-                currentGroup.add(new GrammarElement(Character.toString(c), Character.isLowerCase(c)));
-            }
-            processedGrammar.put(keyElement, groups);
-        }
+        Map<GrammarElement, List<List<GrammarElement>>> processedGrammar = prepareGrammar(grammar);
         //{GrammarElement{token='S', isTerminal=false}=[
         //                              [
         //                                  GrammarElement{token='A', isTerminal=false},
@@ -77,18 +58,85 @@ public class TopDownSyntacticTreeWithoutBacktracking {
         // }
         System.out.println(processedGrammar);
 
-        for(GrammarElement element : processedGrammar.keySet()){
+        /*
+            S [
+                GrammarElement{token='d', isTerminal=true},
+                GrammarElement{token='h', isTerminal=true},
+                GrammarElement{token='~', isTerminal=false},
+                GrammarElement{token='b', isTerminal=true},
+                GrammarElement{token='g', isTerminal=true},
+                GrammarElement{token='a', isTerminal=true}
+              ]
+            A [
+                GrammarElement{token='d', isTerminal=true},
+                GrammarElement{token='g', isTerminal=true},
+                GrammarElement{token='h', isTerminal=true},
+                GrammarElement{token='~', isTerminal=false}
+              ]
+            B [
+                GrammarElement{token='g', isTerminal=true},
+                GrammarElement{token='~', isTerminal=false}
+              ]
+            C [
+                GrammarElement{token='h', isTerminal=true},
+                GrammarElement{token='~', isTerminal=false}
+              ]
+         */
+        for (GrammarElement element : processedGrammar.keySet()) {
             System.out.println(element.getToken() + " " + getFirstsForElement(element, processedGrammar));
+        }
+
+        Map<String, String> grammar1 = new LinkedHashMap<>();
+        grammar1.put("E", "TM");
+        grammar1.put("M", "mTM|~");
+        grammar1.put("T", "FK");
+        grammar1.put("K", "aFK|~");
+        grammar1.put("F", "eEt|d");
+
+        /*
+        Expected FIRSTs:
+
+        FIRST(E) = FIRST(T) = { e , d }
+        FIRST(M) = { m, ~ }
+        FIRST(T) = FIRST(F) = { e , d }
+        FIRST(K) = { a, ~ }
+        FIRST(F) = { e , d }
+         */
+        Map<GrammarElement, List<List<GrammarElement>>> processedGrammar1 = prepareGrammar(grammar1);
+        System.out.println(processedGrammar1);
+
+        for (GrammarElement element : processedGrammar1.keySet()) {
+            System.out.println(element.getToken() + " " + getFirstsForElement(element, processedGrammar1));
         }
     }
 
+    private static Map<GrammarElement, List<List<GrammarElement>>> prepareGrammar(Map<String, String> grammar) {
+        Map<GrammarElement, List<List<GrammarElement>>> processedGrammar = new LinkedHashMap<>();
 
-    private static List<GrammarElement> getFirstsForElement(GrammarElement element, Map<GrammarElement, List<List<GrammarElement>>> processedGrammar ){
-        List<GrammarElement> firsts = new ArrayList<>();
+        for (Map.Entry<String, String> entry : grammar.entrySet()) {
+            GrammarElement keyElement = new GrammarElement(entry.getKey(), false);
+            List<List<GrammarElement>> groups = new ArrayList<>();
+            List<GrammarElement> currentGroup = new ArrayList<>();
+            groups.add(currentGroup);
+            for (char c : entry.getValue().toCharArray()) {
+                if (c == '|') {
+                    currentGroup = new ArrayList<>();
+                    groups.add(currentGroup);
+                    continue;
+                }
+                currentGroup.add(new GrammarElement(Character.toString(c), Character.isLowerCase(c)));
+            }
+            processedGrammar.put(keyElement, groups);
+        }
+        return processedGrammar;
+    }
+
+    private static Set<GrammarElement> getFirstsForElement(GrammarElement element, Map<GrammarElement, List<List<GrammarElement>>> processedGrammar) {
+        Set<GrammarElement> firsts = new HashSet<>();
         for (List<GrammarElement> value : processedGrammar.get(element)) {
             GrammarElement empty = groupContainsEmpty(firsts);
             List<GrammarElement> currentFirsts = first(element, processedGrammar, value);
-            if(empty != null) currentFirsts.remove(empty);
+            if (empty != null) currentFirsts.remove(empty);
             firsts.addAll(currentFirsts);
         }
         return firsts;
@@ -102,7 +150,6 @@ public class TopDownSyntacticTreeWithoutBacktracking {
         3. If X->Y1 Y2 Y3….Yn is a production,
                 FIRST(X) = FIRST(Y1)
                 If FIRST(Y1) contains Є then FIRST(X) = { FIRST(Y1) – Є } U { FIRST(Y2) }
-                If FIRST (Yi) contains Є for all i = 1 to n, then add Є to FIRST(X).
      */
     public static List<GrammarElement> first(GrammarElement element, Map<GrammarElement, List<List<GrammarElement>>> processedGrammar, List<GrammarElement> targetGroup) {
 
@@ -122,22 +169,28 @@ public class TopDownSyntacticTreeWithoutBacktracking {
                 if (secondFromGroup.isEmpty()) secondFromGroup = null;
             }
 
-            List<GrammarElement> y1;
+            List<GrammarElement> y1 = new ArrayList<>();
             if (firstFromGroup.isTerminal()) {
-                y1 = first(firstFromGroup, processedGrammar, null);
+                y1.addAll(first(firstFromGroup, processedGrammar, null));
             } else {
-                y1 = first(firstFromGroup, processedGrammar, processedGrammar.get(firstFromGroup).get(0));
+                List<List<GrammarElement>> grammarElementList = processedGrammar.get(firstFromGroup);
+                for (List<GrammarElement> grammarElements : grammarElementList) {
+                    y1.addAll(first(firstFromGroup, processedGrammar, grammarElements));
+                }
             }
             GrammarElement emptyInY1 = groupContainsEmpty(y1);
             if (emptyInY1 != null) {
                 if (secondFromGroup != null) {
-                    List<GrammarElement> y2;
+                    List<GrammarElement> y2 = new ArrayList<>();
                     if (secondFromGroup.isTerminal()) {
-                        y2 = first(secondFromGroup, processedGrammar, null);
+                        y2.addAll(first(secondFromGroup, processedGrammar, null));
                     } else {
-                        y2 = first(secondFromGroup, processedGrammar, processedGrammar.get(secondFromGroup).get(0));
+                        List<List<GrammarElement>> grammarElementList = processedGrammar.get(secondFromGroup);
+                        for (List<GrammarElement> grammarElements : grammarElementList) {
+                            y1.addAll(first(secondFromGroup, processedGrammar, grammarElements));
+                        }
                     }
-                    if(groupContainsEmpty(y2) != null){
+                    if (groupContainsEmpty(y2) != null) {
                         y1.remove(emptyInY1);
                     }
                     y1.addAll(y2);
@@ -160,7 +213,7 @@ public class TopDownSyntacticTreeWithoutBacktracking {
         return null;
     }
 
-    private static GrammarElement groupContainsEmpty(List<GrammarElement> targetGroup) {
+    private static GrammarElement groupContainsEmpty(Collection<GrammarElement> targetGroup) {
         for (GrammarElement grammarElement : targetGroup) {
             if (grammarElement.isEmpty()) {
                 return grammarElement;
