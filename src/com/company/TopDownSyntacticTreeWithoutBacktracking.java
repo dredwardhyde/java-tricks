@@ -146,10 +146,10 @@ public class TopDownSyntacticTreeWithoutBacktracking {
         Rules to compute FIRST set:
 
         1. If x is a terminal, then FIRST(x) = { ‘x’ }
-        2. If x-> Є, is a production rule, then add Є to FIRST(x).
+        2. If x-> ~, is a production rule, then add ~ to FIRST(x).
         3. If X->Y1 Y2 Y3….Yn is a production,
                 FIRST(X) = FIRST(Y1)
-                If FIRST(Y1) contains Є then FIRST(X) = { FIRST(Y1) – Є } U { FIRST(Y2) }
+                If FIRST(Y1) contains ~ then FIRST(X) = { FIRST(Y1) – ~ } U { FIRST(Y2) }
      */
     public static List<GrammarElement> first(GrammarElement element, Map<GrammarElement, List<List<GrammarElement>>> processedGrammar, List<GrammarElement> targetGroup) {
 
@@ -169,6 +169,7 @@ public class TopDownSyntacticTreeWithoutBacktracking {
                 if (secondFromGroup.isEmpty()) secondFromGroup = null;
             }
 
+            // Получить FIRST(Y1)
             List<GrammarElement> y1 = new ArrayList<>();
             if (firstFromGroup.isTerminal()) {
                 y1.addAll(first(firstFromGroup, processedGrammar, null));
@@ -178,9 +179,14 @@ public class TopDownSyntacticTreeWithoutBacktracking {
                     y1.addAll(first(firstFromGroup, processedGrammar, grammarElements));
                 }
             }
+
+            // Если FIRST(Y1) содержит ~ тогда FIRST(X) = { FIRST(Y1) – ~ } U { FIRST(Y2) }
             GrammarElement emptyInY1 = groupContainsEmpty(y1);
             if (emptyInY1 != null) {
+                // есть следующий элемент группы?
                 if (secondFromGroup != null) {
+
+                    // добавить все FIRST(Y2)
                     List<GrammarElement> y2 = new ArrayList<>();
                     if (secondFromGroup.isTerminal()) {
                         y2.addAll(first(secondFromGroup, processedGrammar, null));
@@ -190,6 +196,8 @@ public class TopDownSyntacticTreeWithoutBacktracking {
                             y1.addAll(first(secondFromGroup, processedGrammar, grammarElements));
                         }
                     }
+
+                    //Если результирующая группа содержит
                     if (groupContainsEmpty(y2) != null) {
                         y1.remove(emptyInY1);
                     }
@@ -197,12 +205,18 @@ public class TopDownSyntacticTreeWithoutBacktracking {
                 }
             }
 
+
+            // если в есть группа в которой есть производная x -> ~
             GrammarElement containsEmptyProduction = anyGroupContainsEmpty(element, processedGrammar);
+
+            // и на данный момент в FIRST(X) не содержится ~ тогда добавить в результат
             if (containsEmptyProduction != null && groupContainsEmpty(y1) == null) y1.add(containsEmptyProduction);
+
             return y1;
         }
     }
 
+    // проверяет есть ли в любой группе данного элемента производная x -> ~
     private static GrammarElement anyGroupContainsEmpty(GrammarElement element, Map<GrammarElement, List<List<GrammarElement>>> processedGrammar) {
         List<List<GrammarElement>> allElements = processedGrammar.get(element);
         for (List<GrammarElement> elements : allElements) {
@@ -213,6 +227,7 @@ public class TopDownSyntacticTreeWithoutBacktracking {
         return null;
     }
 
+    // проверяет, есть ли в группе элемент ~
     private static GrammarElement groupContainsEmpty(Collection<GrammarElement> targetGroup) {
         for (GrammarElement grammarElement : targetGroup) {
             if (grammarElement.isEmpty()) {
