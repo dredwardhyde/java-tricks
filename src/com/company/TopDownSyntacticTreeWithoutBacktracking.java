@@ -9,18 +9,15 @@ import java.util.Map;
 public class TopDownSyntacticTreeWithoutBacktracking {
     public static void main(String... args) {
         Map<String, String> grammar = new LinkedHashMap<>();
-        String startSymbol = "S";
         grammar.put("S", "ACB|Cbb|Ba");
         grammar.put("A", "da|BC");
         grammar.put("B", "g|~");
         grammar.put("C", "h|~");
 
         Map<GrammarElement, List<List<GrammarElement>>> processedGrammar = new LinkedHashMap<>();
-        GrammarElement startGrammarElement = null;
 
         for (Map.Entry<String, String> entry : grammar.entrySet()) {
             GrammarElement keyElement = new GrammarElement(entry.getKey(), false);
-            if (entry.getKey().equals(startSymbol)) startGrammarElement = keyElement;
             List<List<GrammarElement>> groups = new ArrayList<>();
             List<GrammarElement> currentGroup = new ArrayList<>();
             groups.add(currentGroup);
@@ -80,14 +77,21 @@ public class TopDownSyntacticTreeWithoutBacktracking {
         // }
         System.out.println(processedGrammar);
 
-        for (GrammarElement element : processedGrammar.keySet()) {
-            List<List<GrammarElement>> values = processedGrammar.get(element);
-            List<GrammarElement> firsts = new ArrayList<>();
-            for (List<GrammarElement> value : values) {
-                firsts.addAll(first(element, processedGrammar, value));
-            }
-            System.out.println(element.getToken() + " " + firsts);
+        for(GrammarElement element : processedGrammar.keySet()){
+            System.out.println(element.getToken() + " " + getFirstsForElement(element, processedGrammar));
         }
+    }
+
+
+    private static List<GrammarElement> getFirstsForElement(GrammarElement element, Map<GrammarElement, List<List<GrammarElement>>> processedGrammar ){
+        List<GrammarElement> firsts = new ArrayList<>();
+        for (List<GrammarElement> value : processedGrammar.get(element)) {
+            GrammarElement empty = groupContainsEmpty(firsts);
+            List<GrammarElement> currentFirsts = first(element, processedGrammar, value);
+            if(empty != null) currentFirsts.remove(empty);
+            firsts.addAll(currentFirsts);
+        }
+        return firsts;
     }
 
     /*
@@ -128,39 +132,20 @@ public class TopDownSyntacticTreeWithoutBacktracking {
             if (emptyInY1 != null) {
                 if (secondFromGroup != null) {
                     List<GrammarElement> y2;
-                    y1.remove(emptyInY1);
                     if (secondFromGroup.isTerminal()) {
                         y2 = first(secondFromGroup, processedGrammar, null);
                     } else {
                         y2 = first(secondFromGroup, processedGrammar, processedGrammar.get(secondFromGroup).get(0));
                     }
+                    if(groupContainsEmpty(y2) != null){
+                        y1.remove(emptyInY1);
+                    }
                     y1.addAll(y2);
                 }
             }
 
-//            boolean allFirstsContainsEmpty = true;
-//
-//            GrammarElement emptyElement1 = null;
-//
-//            for (GrammarElement grammarElement : targetGroup) {
-//                if (grammarElement.isEmpty()) continue;
-//                List<GrammarElement> elementList;
-//                if (grammarElement.isTerminal()) {
-//                    elementList = first(grammarElement, processedGrammar, null);
-//                } else {
-//                    elementList = first(grammarElement, processedGrammar, processedGrammar.get(grammarElement).get(0));
-//                }
-//                GrammarElement emptyElement2 = groupContainsEmpty(elementList);
-//                if (emptyElement2 == null) allFirstsContainsEmpty = false;
-//                else emptyElement1 = emptyElement2;
-//            }
-//
-//            if (allFirstsContainsEmpty) y1.add(emptyElement1);
-
             GrammarElement containsEmptyProduction = anyGroupContainsEmpty(element, processedGrammar);
-
             if (containsEmptyProduction != null && groupContainsEmpty(y1) == null) y1.add(containsEmptyProduction);
-
             return y1;
         }
     }
