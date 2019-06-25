@@ -3,6 +3,8 @@ package com.company;
 
 import java.util.*;
 
+// https://www.geeksforgeeks.org/compiler-design-first-in-syntax-analysis/
+// https://www.geeksforgeeks.org/compiler-design-follow-set-in-syntax-analysis/
 public class TopDownSyntacticTreeWithoutBacktracking {
     public static void main(String... args) {
         Map<String, String> grammar = new LinkedHashMap<>();
