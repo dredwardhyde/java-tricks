@@ -7,13 +7,14 @@ import java.util.*;
 // https://www.geeksforgeeks.org/compiler-design-follow-set-in-syntax-analysis/
 public class TopDownSyntacticTreeWithoutBacktracking {
     public static void main(String... args) {
-        Map<String, String> grammar = new LinkedHashMap<>();
+        LinkedHashMap<String, String> grammar = new LinkedHashMap<>();
         grammar.put("S", "ACB|Cbb|Ba");
         grammar.put("A", "da|BC");
         grammar.put("B", "g|~");
         grammar.put("C", "h|~");
 
-        Map<GrammarElement, List<List<GrammarElement>>> processedGrammar = prepareGrammar(grammar);
+        List<GrammarElement> processedGrammarSpecials = new ArrayList<>();
+        LinkedHashMap<GrammarElement, List<List<GrammarElement>>> processedGrammar = prepareGrammar(grammar, processedGrammarSpecials);
 
         System.out.println("PROCESSED GRAMMAR:");
         System.out.println(processedGrammar);
@@ -22,7 +23,7 @@ public class TopDownSyntacticTreeWithoutBacktracking {
         System.out.println(getFirstsForElement(processedGrammar));
         System.out.println();
 
-        Map<String, String> grammar1 = new LinkedHashMap<>();
+        LinkedHashMap<String, String> grammar1 = new LinkedHashMap<>();
         grammar1.put("E", "TM");
         grammar1.put("M", "mTM|~");
         grammar1.put("T", "FK");
@@ -38,7 +39,8 @@ public class TopDownSyntacticTreeWithoutBacktracking {
         FIRST(K) = { a, ~ }
         FIRST(F) = { e , d }
          */
-        Map<GrammarElement, List<List<GrammarElement>>> processedGrammar1 = prepareGrammar(grammar1);
+        List<GrammarElement> processedGrammarSpecials1 = new ArrayList<>();
+        LinkedHashMap<GrammarElement, List<List<GrammarElement>>> processedGrammar1 = prepareGrammar(grammar1, processedGrammarSpecials1);
         System.out.println("PROCESSED GRAMMAR:");
         System.out.println(processedGrammar1);
         System.out.println("\nFIRST(X):");
@@ -46,11 +48,12 @@ public class TopDownSyntacticTreeWithoutBacktracking {
         System.out.println();
     }
 
-    private static Map<GrammarElement, List<List<GrammarElement>>> prepareGrammar(Map<String, String> grammar) {
-        Map<GrammarElement, List<List<GrammarElement>>> processedGrammar = new LinkedHashMap<>();
+    private static LinkedHashMap<GrammarElement, List<List<GrammarElement>>> prepareGrammar(Map<String, String> grammar, List<GrammarElement> specials) {
+        LinkedHashMap<GrammarElement, List<List<GrammarElement>>> processedGrammar = new LinkedHashMap<>();
 
         for (Map.Entry<String, String> entry : grammar.entrySet()) {
             GrammarElement keyElement = new GrammarElement(entry.getKey(), false);
+            if(keyElement.getToken().equals("S") || keyElement.getToken().equals("E")) specials.add(keyElement);
             List<List<GrammarElement>> groups = new ArrayList<>();
             List<GrammarElement> currentGroup = new ArrayList<>();
             groups.add(currentGroup);
@@ -67,8 +70,8 @@ public class TopDownSyntacticTreeWithoutBacktracking {
         return processedGrammar;
     }
 
-    private static Map<GrammarElement, Set<GrammarElement>> getFirstsForElement(Map<GrammarElement, List<List<GrammarElement>>> processedGrammar) {
-        Map<GrammarElement, Set<GrammarElement>> elementSetMap = new LinkedHashMap<>();
+    private static LinkedHashMap<GrammarElement, Set<GrammarElement>> getFirstsForElement(Map<GrammarElement, List<List<GrammarElement>>> processedGrammar) {
+        LinkedHashMap<GrammarElement, Set<GrammarElement>> elementSetMap = new LinkedHashMap<>();
         for (GrammarElement element : processedGrammar.keySet()) {
             Set<GrammarElement> firsts = new HashSet<>();
             for (List<GrammarElement> value : processedGrammar.get(element)) {
@@ -182,11 +185,22 @@ public class TopDownSyntacticTreeWithoutBacktracking {
         return null;
     }
 
-    private static Map<GrammarElement, Set<GrammarElement>> getFollowsForElement(Set<GrammarElement> elements,
-                                                                                 Map<GrammarElement, List<List<GrammarElement>>> processedGrammar,
-                                                                                 Map<GrammarElement, Set<GrammarElement>> firsts) {
+    private static LinkedHashMap<GrammarElement, Set<GrammarElement>> getFollowsForElement(Set<GrammarElement> elements,
+                                                                                 LinkedHashMap<GrammarElement, List<List<GrammarElement>>> processedGrammar,
+                                                                                 LinkedHashMap<GrammarElement, Set<GrammarElement>> firsts, List<GrammarElement> specials) {
 
 
         return null;
+    }
+
+    private static Set<GrammarElement> follow(GrammarElement element,LinkedHashMap<GrammarElement, List<List<GrammarElement>>> processedGrammar,
+                                              LinkedHashMap<GrammarElement, Set<GrammarElement>> firsts, List<GrammarElement> specials){
+        Set<GrammarElement> result = new HashSet<>();
+
+        if(element.equals(specials.get(0))){
+            result.add(new GrammarElement("$", false));
+        }
+
+        return result;
     }
 }
