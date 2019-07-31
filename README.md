@@ -105,6 +105,4 @@
 
 52. [Why you can't use ConcurrentSkipListMap as expiration queue?  Because System.currentTimestamp() accuracy is low.  Here is how to make multithreaded expiration queue.](https://github.com/dredwardhyde/java-tricks/blob/master/src/com/company/WaitForExpiration.java)
 
-
-
-
+53. [How to use class instance creation expression and how it works?](https://github.com/dredwardhyde/java-tricks/blob/master/src/com/company/ClassInstanceCreation.java)
