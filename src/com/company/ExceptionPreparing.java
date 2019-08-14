@@ -2,36 +2,34 @@ package com.company;
 
 
 public class ExceptionPreparing {
-    public static void main(String[] args) throws Throwable {
+    /*
+        reason
+        java.lang.Exception: reason
+            at com.company.ExceptionPreparing.invalidNumber(ExceptionPreparing.java:21)
+            at com.company.ExceptionPreparing.main(ExceptionPreparing.java:7)
+        reason1
+        java.lang.RuntimeException: reason1
+            at com.company.ExceptionPreparing.invalidNumber(ExceptionPreparing.java:23)
+            at com.company.ExceptionPreparing.main(ExceptionPreparing.java:13)
+     */
+    public static void main(String[] args) {
         try {
-            Long.parseLong("not-long");
-        } catch (NumberFormatException e) {
-            /*
-                Without "throw" before invalidNumber("reason"):
-
-                Preparing exception...
-                Exception in thread "main" java.lang.Exception: Exception thrown because of reason
-                    at com.company.ExceptionPreparing.invalidNumber(ExceptionPreparing.java:15)
-                    at com.company.ExceptionPreparing.main(ExceptionPreparing.java:9)
-
-
-                With "throw" before invalidNumber("reason"):
-
-                Preparing exception...
-                Exception in thread "main" java.lang.Exception: Exception thrown because of reason
-                    at com.company.ExceptionPreparing.invalidNumber(ExceptionPreparing.java:23)
-                    at com.company.ExceptionPreparing.main(ExceptionPreparing.java:17)
-             */
             throw invalidNumber("reason");
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+
+        try {
+            throw invalidNumber("reason1");
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
     }
-
-    // "returns Throwable but throws Exception
-    // Throwable - type of exception that will be expected in caller method
-    // Exception - type of exception that will be actually thrown (must be in throws in method's signature)
-    private static Throwable invalidNumber(String reason) throws Exception {
-        System.out.println("Preparing exception...");
-        throw new Exception("Exception thrown because of " + reason);
+    private static Throwable invalidNumber(String reason)  {
+        System.out.println(reason);
+        if(reason.equals("reason"))
+            return new Exception(reason);
+        else
+            return new RuntimeException(reason);
     }
-
 }
