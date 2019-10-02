@@ -108,3 +108,7 @@
 53. [How to use class instance creation expression and how it works?](https://github.com/dredwardhyde/java-tricks/blob/master/src/com/company/ClassInstanceCreation.java)
 
 54. [FizzBuzz example using Java Streams & Eclipse Collections](https://github.com/dredwardhyde/java-tricks/blob/master/src/com/company/FizzBuzz.java)
+
+55. [Exceptions in instance initialization blocks and constructor's signature](https://github.com/dredwardhyde/java-tricks/blob/master/src/com/company/Sleepy.java)
+
+56. [Initialization order of final primitive fields](https://github.com/dredwardhyde/java-tricks/blob/master/src/com/company/OrderPuzzle.java)
