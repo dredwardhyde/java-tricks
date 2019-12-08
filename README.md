@@ -112,3 +112,5 @@
 55. [Exceptions in instance initialization blocks and constructor's signature](https://github.com/dredwardhyde/java-tricks/blob/master/src/com/company/Sleepy.java)
 
 56. [Initialization order of final primitive fields](https://github.com/dredwardhyde/java-tricks/blob/master/src/com/company/OrderPuzzle.java)
+
+57. [Try/Catch Monad in Java](https://github.com/dredwardhyde/java-tricks/blob/master/src/com/company/MonadsTryCatchExample.java)
