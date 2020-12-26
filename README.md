@@ -114,3 +114,5 @@
 56. [Initialization order of final primitive fields](https://github.com/dredwardhyde/java-tricks/blob/master/src/com/company/OrderPuzzle.java)
 
 57. [Try/Catch Monad in Java](https://github.com/dredwardhyde/java-tricks/blob/master/src/com/company/MonadsTryCatchExample.java)
+    
+58. [Runtime Java code compilation and .jar assembly](https://github.com/dredwardhyde/java-tricks/blob/master/src/com/company/RuntimeCompTest.java)
